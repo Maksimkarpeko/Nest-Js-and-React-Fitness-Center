@@ -1,0 +1,18 @@
+model User {
+  userId           Int            @id @default(autoincrement()) @map("user_id")
+  firstName        String
+  secondName       String
+  email            String         @unique
+  login            String         @unique
+  password         String         @unique
+  phone            String
+  birthDate        DateTime       @map("birth_date")
+  gender           String
+  registrationDate DateTime       @default(now()) @map("registration_date")
+  status           GlobalStatus
+  subscription     Subscription[]
+  review           Review[]
+  userGroups       UserGroup[]
+  visitings        Visiting[]
+}
+

@@ -1,0 +1,9 @@
+model Schedule {
+  scheduleId     Int      @id @default(autoincrement()) @map("schedule_id")
+  startTime      DateTime @map("start_time")
+  endTime        DateTime @map("end_time")
+  workout        Workout  @relation(fields: [workoutId], references: [workoutId])
+  type           String
+  repetitionRule String   @map("repetition_rule")
+  workoutId      Int      @map("workout_id")
+}

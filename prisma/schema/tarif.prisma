@@ -1,0 +1,7 @@
+model Tariff {
+  tariffId Int     @id @default(autoincrement()) @map("tariff_id")
+  name     String
+  price    Decimal
+
+  subscriptions Subscription[]
+}

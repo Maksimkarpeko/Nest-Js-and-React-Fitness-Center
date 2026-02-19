@@ -1,0 +1,7 @@
+model UserGroup {
+  id      Int   @id @default(autoincrement())
+  group   Group @relation(fields: [groupId], references: [groupId])
+  user    User  @relation(fields: [userId], references: [userId])
+  userId  Int   @map("user_id")
+  groupId Int   @map("group_id")
+}

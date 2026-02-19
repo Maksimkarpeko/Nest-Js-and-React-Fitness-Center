@@ -1,0 +1,19 @@
+model Workout {
+  workoutId      Int          @id @default(autoincrement()) @map("workout_id")
+  trainer        Trainer      @relation(fields: [trainerId], references: [trainerId])
+  hall           Hall         @relation(fields: [hallId], references: [hallId])
+  workoutType    Workout_type @relation(fields: [workoutTypeId], references: [workoutTypeId])
+  maxCountPerson Int          @map("max_count_person")
+  durationTime   Int          @map("duration_time")
+  isGroup        Boolean      @map("is_group")
+  group          Group?       @relation(fields: [groupId], references: [groupId])
+  status         GlobalStatus
+  groupId        Int?         @map("group_id")
+  workoutTypeId  Int          @map("workout_type_id")
+  hallId         Int          @map("hall_id")
+  trainerId      Int          @map("trainer_id")
+  schedules      Schedule[]
+  visitings      Visiting[]
+
+  @@map("workout")
+}

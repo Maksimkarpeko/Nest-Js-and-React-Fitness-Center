@@ -1,0 +1,6 @@
+model Workout_type {
+  workoutTypeId Int       @id @default(autoincrement()) @map("workout_type_id")
+  name          String
+  description   String
+  workouts      Workout[]
+}

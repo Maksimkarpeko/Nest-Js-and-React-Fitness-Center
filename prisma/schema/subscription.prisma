@@ -1,0 +1,11 @@
+model Subscription {
+  subscriptionId Int      @id @default(autoincrement()) @map("subscription_id")
+  startData      DateTime @default(now()) @map("start_data")
+  endData        DateTime @map("end_data")
+  countVisit     Int      @map("count_visit")
+  status         GlobalStatus
+  tariff         Tariff   @relation(fields: [tariffId], references: [tariffId])
+  tariffId       Int      @map("tariff_id")
+  userUserId     Int      @map("user_user_id")
+  user           User     @relation(fields: [userUserId], references: [userId])
+}

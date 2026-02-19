@@ -1,0 +1,9 @@
+model Group {
+  groupId     Int    @id @default(autoincrement()) @map("group_id")
+  name        String
+  description String
+
+  userGroups UserGroup[] 
+
+  workouts Workout[]
+}
