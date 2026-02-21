@@ -3,5 +3,5 @@ model Review {
   text       String
   user       User   @relation(fields: [userUserId], references: [userId])
   userUserId Int    @map("user_user_id")
-  rating     Float
+  rating     Float?
 }

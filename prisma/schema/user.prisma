@@ -9,7 +9,7 @@ model User {
   birthDate        DateTime       @map("birth_date")
   gender           String
   registrationDate DateTime       @default(now()) @map("registration_date")
-  status           GlobalStatus
+  status           GlobalStatus?
   subscription     Subscription[]
   review           Review[]
   userGroups       UserGroup[]
