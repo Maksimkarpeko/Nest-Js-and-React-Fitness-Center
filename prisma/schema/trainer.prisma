@@ -4,11 +4,12 @@ model Trainer {
   secondName      String        @map("second_name")
   specialization  String?
   experienceYears Float?        @map("experience_years")
-  birthDate       DateTime?     @map("birth_date")
   login           String
   password        String
   phone           String        @unique
   email           String        @unique
+  gender          String
+  birthDate       DateTime     @map("birth_date")
   countWorkday    Int?          @map("count_work_day")
   code            Int?
   status          GlobalStatus?
