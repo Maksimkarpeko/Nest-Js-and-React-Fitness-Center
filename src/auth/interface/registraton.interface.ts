@@ -6,5 +6,5 @@ export interface Registration {
   phone: string;
   email: string;
   gender: string;
-  birthDate: string;
+  birthDate: Date;
 }

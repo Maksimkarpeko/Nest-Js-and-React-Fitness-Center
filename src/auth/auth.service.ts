@@ -1,22 +1,25 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { UserService } from '../user/user.service.js';
 import { Registration } from './interface/registraton.interface.js';
 import * as bcrypt from 'bcrypt';
 import { TrainerService } from '../trainer/trainer.service.js';
+import { JwtService } from '@nestjs/jwt';
+import {
+  Authenticated,
+} from './interface/auth.interface.js';
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private userService: UserService,
     private trainerService: TrainerService,
+    private jwtService: JwtService,
   ) {}
-
-  private validateDate(birthDate: string) {
-    const [day, month, year] = birthDate.split('.').map(Number);
-    const formattedDate = new Date(year, month - 1, day);
-    return formattedDate;
-  }
 
   private async hashPassword(password: string) {
     const salt = 10;
@@ -24,13 +27,16 @@ export class AuthService {
     return cryptoPassword;
   }
 
-  async signInUser(login: string, pass: string) {
+  async validateUser(login:string,passwordUser:string) {
     const user = await this.userService.findOne(login);
-    console.log(user);
+    
     if (!user) {
       throw new UnauthorizedException('Invalid user');
     }
-    const isMatch = await bcrypt.compare(pass, user.password);
+    if (user.login !== login) {
+      throw new UnauthorizedException('Invalid login');
+    }
+    const isMatch = await bcrypt.compare(passwordUser, user.password);
     if (!isMatch) {
       throw new UnauthorizedException('Invalid password');
     }
@@ -39,12 +45,18 @@ export class AuthService {
     return res;
   }
 
-  async signInTrainer(login: string, pass: string) {
+  async validateTrainer(login:string,passwordTrainer:string) {
     const trainer = await this.trainerService.findOne(login);
     if (!trainer) {
       throw new UnauthorizedException('Invalid trainer');
     }
-    const isMatch = await bcrypt.compare(pass, trainer.password);
+    if (trainer.login !== login) {
+      throw new UnauthorizedException('Invalid login');
+    }
+    const isMatch = await bcrypt.compare(
+      passwordTrainer,
+      trainer.password,
+    );
     if (!isMatch) {
       throw new UnauthorizedException('Invalid password');
     }
@@ -52,28 +64,40 @@ export class AuthService {
     return res;
   }
 
-  async signUpUser(registration: Registration) {
-    const { password, birthDate, ...registrationData } = registration;
-    const validateDate = this.validateDate(birthDate);
+  login(user: Authenticated) {
+    const payload = { sub: user.authenticatedId, login: user.login };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
+
+  async signUpUser(registrationUser: Registration) {
+    const user = await this.userService.findOne(registrationUser.login);
+    if (user) {
+      throw new BadRequestException('the User has already been created');
+    }
+    const { password, ...registrationData } = registrationUser;
     const cryptoPassword = await this.hashPassword(password);
     return await this.prisma.user.create({
       data: {
         ...registrationData,
         password: cryptoPassword,
-        birthDate: validateDate,
       },
     });
   }
 
   async signUpTrainer(registration: Registration) {
-    const { password, birthDate, ...registrationData } = registration;
+    const trainer = await this.trainerService.findOne(registration.login);
+    if (trainer) {
+      throw new BadRequestException('the Trainer has already been created');
+    }
+    const { password, ...registrationData } = registration;
     const cryptoPassword = await this.hashPassword(password);
-    const validateDate = this.validateDate(birthDate);
     return await this.prisma.trainer.create({
       data: {
         ...registrationData,
         password: cryptoPassword,
-        birthDate: validateDate,
       },
     });
   }
