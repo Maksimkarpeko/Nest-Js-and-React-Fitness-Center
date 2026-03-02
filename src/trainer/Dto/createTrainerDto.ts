@@ -8,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class RegistrationDto {
+export class CreateTrainerDto {
   @IsNotEmpty()
   firstName: string;
 
