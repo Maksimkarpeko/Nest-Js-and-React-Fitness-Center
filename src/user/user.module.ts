@@ -17,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
         },
       }),
     }),
+    UserModule,
   ],
   controllers: [UserController],
   providers: [UserService],

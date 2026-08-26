@@ -4,4 +4,6 @@ model Tariff {
   price    Decimal
 
   subscriptions Subscription[]
+
+  @@map("tariff")
 }

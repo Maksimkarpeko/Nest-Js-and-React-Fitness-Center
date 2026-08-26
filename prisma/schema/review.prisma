@@ -1,7 +1,9 @@
 model Review {
-  reviewId   Int    @id @default(autoincrement()) @map("review_id")
-  text       String
-  user       User   @relation(fields: [userUserId], references: [userId])
-  userUserId Int    @map("user_user_id")
-  rating     Float?
+  reviewId Int    @id @default(autoincrement()) @map("review_id")
+  text     String
+  userId   Int    @map("user_id")
+  user     User   @relation(fields: [userId], references: [userId])
+  rating   Float?
+
+  @@map("review")
 }

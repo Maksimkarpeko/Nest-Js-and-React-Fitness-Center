@@ -6,4 +6,6 @@ model Schedule {
   type           String
   repetitionRule String   @map("repetition_rule")
   workoutId      Int      @map("workout_id")
+
+  @@map("schedule")
 }

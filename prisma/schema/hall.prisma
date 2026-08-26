@@ -2,7 +2,9 @@ model Hall {
   hallId   Int        @id @default(autoincrement()) @map("hall_id")
   name     String
   hallType String     @map("hall_type")
-  status   HallStatus
+  status   HallStatus @default(ACTIVE)
 
   workouts Workout[]
+
+  @@map("hall")
 }

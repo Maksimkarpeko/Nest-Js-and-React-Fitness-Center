@@ -1,18 +1,23 @@
 model User {
-  userId           Int            @id @default(autoincrement()) @map("user_id")
-  firstName        String
-  secondName       String
-  email            String         @unique
-  login            String         @unique
-  password         String         @unique
+  userId           Int           @id @default(autoincrement()) @map("user_id")
+  firstName        String        @map("first_name")
+  secondName       String        @map("second_name")
+  email            String        @unique
+  login            String        @unique
+  password         String        
   phone            String
-  birthDate        DateTime       @map("birth_date")
+  birthDate        DateTime      @map("birth_date")
   gender           String
-  registrationDate DateTime       @default(now()) @map("registration_date")
-  status           GlobalStatus?
+  registrationDate DateTime      @default(now()) @map("registration_date")
+
+  status           GlobalStatus? @default(ACTIVE)
+  role             UserRole      @default(USER)
+
+  trainerProfile   TrainerProfile?
   subscription     Subscription[]
   review           Review[]
   userGroups       UserGroup[]
   visitings        Visiting[]
-}
 
+  @@map("user")
+}

@@ -1,0 +1,14 @@
+model TrainerProfile {
+  trainerProfileId Int           @id @default(autoincrement()) @map("trainer_profile_id")
+  specialization   String?
+  experienceYears  Float?        @map("experience_years")
+  countWorkday     Int?          @map("count_work_day")
+  status           GlobalStatus? @default(ACTIVE)
+
+  userId           Int           @unique @map("user_id")
+  user             User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  workouts         Workout[]
+
+  @@map("trainer_profile")
+}

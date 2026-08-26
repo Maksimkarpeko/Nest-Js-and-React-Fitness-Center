@@ -3,4 +3,6 @@ model Workout_type {
   name          String
   description   String
   workouts      Workout[]
+
+  @@map("workout_type")
 }

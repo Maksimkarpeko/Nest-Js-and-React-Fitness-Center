@@ -3,20 +3,16 @@ import { AuthService } from './auth.service.js';
 import { AuthController } from './auth.controller.js';
 import { UserModule } from '../user/user.module.js';
 import { PrismaModule } from '../prisma/prisma.module.js';
-import { TrainerModule } from '../trainer/trainer.module.js';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import {
-  LocalTrainerStrategy,
-} from './strategy/localTrainer.strategy.js';
 import { LocalUserStrategy } from './strategy/localUser.strategy.js';
+import { JwtStrategy } from './strategy/jwt.strategy.js';
 
 @Module({
   imports: [
     UserModule,
     PrismaModule,
-    TrainerModule,
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -29,6 +25,7 @@ import { LocalUserStrategy } from './strategy/localUser.strategy.js';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalUserStrategy, LocalTrainerStrategy],
+  providers: [AuthService, LocalUserStrategy, JwtStrategy],
+  exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

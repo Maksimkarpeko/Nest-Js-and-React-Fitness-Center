@@ -4,4 +4,7 @@ model UserGroup {
   user    User  @relation(fields: [userId], references: [userId])
   userId  Int   @map("user_id")
   groupId Int   @map("group_id")
+
+  @@unique([userId, groupId])
+  @@map("user_group")
 }

@@ -1,10 +1,11 @@
 model Visiting {
-  visitingId Int           @id @default(autoincrement()) @map("visiting_id")
-  workout    Workout       @relation(fields: [workoutId], references: [workoutId])
-  user       User          @relation(fields: [userId], references: [userId])
+  visitingId Int            @id @default(autoincrement()) @map("visiting_id")
+  workout    Workout        @relation(fields: [workoutId], references: [workoutId])
+  user       User           @relation(fields: [userId], references: [userId])
   date       DateTime
   status     VisitingStatus
-  userId     Int           @map("user_id")
-  workoutId  Int           @map("workout_id")
-}
+  userId     Int            @map("user_id")
+  workoutId  Int            @map("workout_id")
 
+  @@map("visiting")
+}
